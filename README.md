@@ -1,4 +1,4 @@
-*fcompop*: _Function composition operators(>>, <<) for Python_
+*fcompop*: _Function composition operators(>>, <<) for functional programming with Python_
 
 Copyright (c) 2014, Jun Namikawa <jnamika@gmail.com>
 License: ISC License (ISCL)

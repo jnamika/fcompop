@@ -1,22 +1,22 @@
 import sys
 import os
-sys.path.append('src')
-sys.path.append(os.path.join('src', 'tests'))
+sys.path.append('fcompop')
+sys.path.append(os.path.join('fcompop', 'tests'))
 from setuptools import setup
-from src import __version__, __license__, __author__, __email__, __doc__
+from fcompop import __version__, __license__, __author__, __email__, __doc__
 
 setup(
     name         = 'fcompop',
     version      = __version__,
-    description  = 'Function composition operators',
+    description  = 'Function composition operators for functional programming',
     long_description = __doc__,
     author       = __author__,
     author_email = __email__,
     license      = __license__,
     url          = 'https://github.com/jnamika/fcompop',
-    keywords     = 'function composition operator',
+    keywords     = 'function composition operator functional programming',
     packages     = ['fcompop'],
-    package_dir  = {'fcompop' : 'src'},
+    #package_dir  = {'fcompop' : 'src'},
     test_suite   = 'test4fcompop',
     classifiers  = [
         'Development Status :: 3 - Alpha',
