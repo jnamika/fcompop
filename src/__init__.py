@@ -4,6 +4,7 @@ fcompop is a Python library that provides function composition operators.
 An example of usages is following:
 
     >>> import fcompop
+    >>> fcompop.inject()  # adding operators to builtin&user functions
     >>> func = str._ >> (lambda x: x * 2 + 'abc') >> str.upper
     >>> func(123)
     '123123ABC'
@@ -16,3 +17,6 @@ __author__ = 'Jun Namikawa'
 __email__ = 'jnamika@gmail.com'
 __version__ = '0.1'
 __license__ = 'ISC License (ISCL)'
+
+
+from fcompop import *

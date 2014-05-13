@@ -7,23 +7,23 @@ else:
     import __builtin__ as builtins
 
 
-class PyObject(ctypes.Structure):
+class _PyObject(ctypes.Structure):
     pass
 
 
-PyObject._fields_ = [('ob_refcnt', ctypes.c_int64 if hasattr(ctypes.pythonapi,
+_PyObject._fields_ = [('ob_refcnt', ctypes.c_int64 if hasattr(ctypes.pythonapi,
                       'Py_InitModule4_64') else ctypes.c_int),
-                     ('ob_type', ctypes.POINTER(PyObject))]
+                     ('ob_type', ctypes.POINTER(_PyObject))]
 
 
-class PyObjectPointer(PyObject):
-    _fields_ = [('dict', ctypes.POINTER(PyObject))]
+class _PyObjectPointer(_PyObject):
+    _fields_ = [('dict', ctypes.POINTER(_PyObject))]
 
 
 def proxy_builtin(cls):
     name = cls.__name__
     slots = getattr(cls, '__dict__', name)
-    pointer = PyObjectPointer.from_address(id(slots))
+    pointer = _PyObjectPointer.from_address(id(slots))
     namespace = {}
     ctypes.pythonapi.PyDict_SetItem(ctypes.py_object(namespace),
                                     ctypes.py_object(name), pointer.dict)
@@ -48,9 +48,10 @@ class Composition(object):
         return self.func(*args, **kwds)
 
 
-proxy_builtin(types.BuiltinFunctionType)['_'] = property(Composition)
-proxy_builtin(types.BuiltinMethodType)['_'] = property(Composition)
-proxy_builtin(types.FunctionType)['_'] = property(Composition)
-proxy_builtin(types.MethodType)['_'] = property(Composition)
-proxy_builtin(type)['_'] = property(Composition)
-proxy_builtin(type(type.__subclasses__))['_'] = property(Composition)
+def inject():
+    proxy_builtin(types.BuiltinFunctionType)['_'] = property(Composition)
+    proxy_builtin(types.BuiltinMethodType)['_'] = property(Composition)
+    proxy_builtin(types.FunctionType)['_'] = property(Composition)
+    proxy_builtin(types.MethodType)['_'] = property(Composition)
+    proxy_builtin(type)['_'] = property(Composition)
+    proxy_builtin(type(type.__subclasses__))['_'] = property(Composition)

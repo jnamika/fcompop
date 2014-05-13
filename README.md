@@ -10,6 +10,7 @@ License: ISC License (ISCL)
 An example of usages is following:
 
     >>> import fcompop
+    >>> fcompop.inject()  # adding operators to builtin&user functions
     >>> func = str._ >> (lambda x: x * 2 + 'abc') >> str.upper
     >>> func(123)
     '123123ABC'

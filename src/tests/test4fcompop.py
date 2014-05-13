@@ -1,6 +1,8 @@
 import fcompop
 import unittest
 
+fcompop.inject()
+
 
 class TestFunctor(unittest.TestCase):
     def test_rshift(self):
