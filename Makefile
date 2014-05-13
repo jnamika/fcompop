@@ -9,4 +9,4 @@ test:
 
 .PHONY: clean
 clean:
-	rm -rf dist fcompop.egg-info
+	rm -rf dist fcompop.egg-info src/fcompop.egg-info

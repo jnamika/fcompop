@@ -15,8 +15,8 @@ setup(
     license      = __license__,
     url          = 'https://github.com/jnamika/fcompop',
     keywords     = 'function composition operator',
-    packages     = ['fcompop'],
-    package_dir  = {'fcompop' : 'src'},
+    #packages     = ['fcompop'],
+    package_dir  = {'' : 'src'},
     test_suite   = 'test4fcompop',
     classifiers  = [
         'Development Status :: 3 - Alpha',
