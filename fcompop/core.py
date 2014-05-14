@@ -1,6 +1,7 @@
 import sys
 import types
 import ctypes
+import functools
 if sys.version >= '3.0':
     import builtins
 else:
@@ -30,28 +31,25 @@ def proxy_builtin(cls):
     return namespace[name]
 
 
-class Composition(object):
-    def __init__(self, func):
-        self.func = func
-
+class Composition(functools.partial):
     def __rshift__(self, func):
         def _(*args, **kwds):
-            return func(self.func(*args, **kwds))
+            return func(self(*args, **kwds))
         return Composition(_)
 
     def __lshift__(self, func):
         def _(*args, **kwds):
-            return self.func(func(*args, **kwds))
+            return self(func(*args, **kwds))
         return Composition(_)
 
-    def __call__(self, *args, **kwds):
-        return self.func(*args, **kwds)
 
-
-def inject():
+def inject(*args):
     proxy_builtin(types.BuiltinFunctionType)['_'] = property(Composition)
     proxy_builtin(types.BuiltinMethodType)['_'] = property(Composition)
     proxy_builtin(types.FunctionType)['_'] = property(Composition)
     proxy_builtin(types.MethodType)['_'] = property(Composition)
     proxy_builtin(type)['_'] = property(Composition)
     proxy_builtin(type(type.__subclasses__))['_'] = property(Composition)
+    proxy_builtin(functools.partial)['_'] = property(Composition)
+    for arg in args:
+        proxy_builtin(arg)['_'] = property(Composition)
